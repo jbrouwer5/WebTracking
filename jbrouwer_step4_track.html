@@ -1,0 +1,138 @@
+<html>
+	<head>
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/gfs-baskerville-classic" type="text/css"/>
+	</head>
+	<body>
+		<!-- <img src="https://jbrouwer.computersecurityclass.com/noscript.php" width="0" height="0" border="0"> -->
+	<span id="Times" style="font-family: Times" >welcome;ςερτυθιοπασδφγηξκλζχψωβνμ	;ςερτυθιοπασδφγηξκλζχψωβνμ</span>
+        <br>
+        <span id="Abyss" style="font-family: 'Abyssinica SIL', Times" >welcome;ςερτυθιοπασδφγηξκλζχψωβνμ ;ςερτυθιοπασδφγηξκλζχψωβνμ</span>
+        <br>
+        <span id="DejaVu" style="font-family: 'DejaVu Sans', Times">welcome;ςερτυθιοπασδφγηξκλζχψωβνμ ;ςερτυθιοπασδφγηξκλζχψωβνμ</span>
+        <br>
+        <span id="GFS" style="font-family: 'GFSBaskervilleRegular',Baskerville,Baskerville Old Face,'Baskerville', 'Baskerville Old Face', GFS Baskerville, 'GFS Baskerville', Times">welcome;ςερτυθιοπασδφγηξκλζχψωβνμ ;ςερτυθιοπασδφγηξκλζχψωβνμ</span>
+        <br>
+        <span id="Sans" style="font-family: 'Liberation Sans', Times" >welcome;ςερτυθιοπασδφγηξκλζχψωβνμ ;ςερτυθιοπασδφγηξκλζχψωβνμ</span>
+        <br>
+        <span id="Roboto" style="font-family: 'Roboto', Times" >welcome;ςερτυθιοπασδφγηξκλζχψωβνμ ;ςερτυθιοπασδφγηξκλζχψωβνμ</span>
+	<script>
+		// Get fileno
+		const {
+			host, hostname, href, origin, pathname, port, protocol, search
+		} = window.location; 
+
+		if (pathname.substring(1,6) == 'track'){
+			var fileno = 0; 
+		}
+		else{
+			var fileno = pathname.substring(1, pathname.indexOf('.')); 
+		}	
+
+
+		
+		// Get Cookie 
+		var cookies = document.cookie.split(';');
+		var cookie = ""; 
+		if (cookies.length > 0){
+			cookie =  cookies[0].substring(3);
+		}
+		if (cookie == ""){
+			const d = new Date();
+  			d.setTime(d.getTime() + (5 * 24 * 60 * 60 * 1000));
+  			let expires = "expires="+d.toUTCString();
+			document.cookie = 'id' + "=" + Math.floor(1+Math.random()*1000000)  + ";" + expires + ";path=/";
+			cookie = document.cookie.substring(3); 
+		}
+		
+
+
+
+		// Get ip address
+		var xhttpip = new XMLHttpRequest();
+		xhttpip.open("GET", "https://api.ipify.org?format=json", true); 
+		xhttpip.send(); 
+		var ip; 
+
+		
+
+
+		// Get Window Size
+		var width = window.innerWidth;
+		var height = window.innerHeight;
+		
+		
+
+		// Get user-agent string 
+		var agent = navigator.userAgent;		
+
+
+		// Get cookies enabled 
+		var cookies_enabled = navigator.cookieEnabled; 
+
+
+		// Measure fonts 
+		var times_width = document.getElementById("Times").getBoundingClientRect().width; 
+                var times_height = document.getElementById("Times").getBoundingClientRect().height; 	
+		var abyss_width = document.getElementById("Abyss").getBoundingClientRect().width;  
+		var abyss_height = document.getElementById("Abyss").getBoundingClientRect().height;  
+		var dejavu_width = document.getElementById("DejaVu").getBoundingClientRect().width; 
+                var dejavu_height = document.getElementById("DejaVu").getBoundingClientRect().height;     
+                var gfs_width = document.getElementById("GFS").getBoundingClientRect().width;  
+                var gfs_height = document.getElementById("GFS").getBoundingClientRect().height;  
+		var sans_width = document.getElementById("Sans").getBoundingClientRect().width; 
+                var sans_height = document.getElementById("Sans").getBoundingClientRect().height;     
+                var roboto_width = document.getElementById("Roboto").getBoundingClientRect().width;  
+                var roboto_height = document.getElementById("Roboto").getBoundingClientRect().height;   
+
+		var fonts = ""; 
+		if (times_width == abyss_width && times_height == abyss_height){
+			fonts += "Abyssinica SIL";
+		}
+		if (times_width == dejavu_width && times_height == dejavu_height){
+			if (fonts.length > 0){
+				fonts += ", ";
+			}
+			fonts += "DejaVu Sans";
+                }
+		if (times_width == gfs_width && times_height == gfs_height){
+			if (fonts.length > 0){
+                                fonts += ", ";
+                        }
+                        fonts += "GFS Baskerville";
+                }
+		if (times_width == sans_width && times_height == sans_height){
+			if (fonts.length > 0){
+                                fonts += ", ";
+                        }
+                        fonts += "Liberation Sans";
+                }
+		if (times_width == roboto_width && times_height == roboto_height){
+			if (fonts.length > 0){
+                                fonts += ", ";
+                        }
+                        fonts += "Roboto";
+                }
+		
+
+		// Post request to tracking.php
+		var xhttp = new XMLHttpRequest(); 
+		xhttp.open("POST", "https://jbrouwer.computersecurityclass.com/tracking.php", true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+
+		xhttpip.onreadystatechange = function() {
+                        if (xhttpip.readyState == XMLHttpRequest.DONE) {
+				ip = JSON.parse(xhttpip.responseText)["ip"]; 
+				xhttp.send("fileno="+fileno+"&cookie="+cookie+"&ip="+ip+"&window_width="+width+"&window_height="+height+"&user_agent="+agent+"&cookies_enabled="+cookies_enabled+"&fonts="+fonts+"&javascript=true");
+                        }                       
+                }
+
+	</script>
+	<noscript>
+		<img src="https://jbrouwer.computersecurityclass.com/noscript.php" width="0" height="0" border="0">
+	</noscript>
+	</body>
+</html> 
+
+
+
